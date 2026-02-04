@@ -1,0 +1,14 @@
+.header{
+    color: black;
+}
+
+.header-title{
+    font-weight: bold;
+    font-size: 40px;
+}
+
+.header-description{
+    font-size: 20px;
+    font-style: italic;
+    margin-top: 10px;
+}
