@@ -13,21 +13,17 @@
 }
 
 .b-description{
-    background-color: cornflowerblue;
     font-weight: 700;
 }
 
 .b-amount{
-    background-color: darkgreen;
     font-weight: 600;
 }
 
 .b-date{
-    background-color: mediumblue;
     font-weight: 500;
 }
 
 .b-category{
-    background-color: red;
     font-weight: 700;
 }
