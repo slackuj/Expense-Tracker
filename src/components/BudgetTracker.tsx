@@ -1,5 +1,6 @@
 import './BudgetTracker.css';
-import {useState} from "react";
+import * as React from "react";
+import {useEffect, useState} from "react";
 
 type Category = "Income" | "Expense";
 interface budgetItem {
@@ -28,13 +29,52 @@ const INITIAL_BUDGET_ITEMS: budgetItem[] = [
 
 ];
 
+const INITIALIZE_BUDGET_ITEMS = (): budgetItem[] =>{
+
+const items = localStorage.getItem("budgetItems");
+if (items) {
+    try {
+        return JSON.parse(items);
+    } catch (e) {
+        // If parsing fails, reset to initial
+        localStorage.setItem("budgetItems", JSON.stringify(INITIAL_BUDGET_ITEMS));
+        return(INITIAL_BUDGET_ITEMS);
+    }
+}
+else{
+    return(INITIAL_BUDGET_ITEMS);
+}
+}
 const BudgetTracker = () => {
 
-    const [ budgetItems, setBudgetItems] = useState<budgetItem []>(INITIAL_BUDGET_ITEMS);
+    const [ budgetItems, setBudgetItems] = useState<budgetItem []>(INITIALIZE_BUDGET_ITEMS);
     const [description, setDescription] = useState("");
     const [amount, setAmount] = useState<number>();
     const [date, setDate] = useState('');
     const [category, setCategory] = useState<Category>('Expense');
+
+    /*useEffect(() => {
+        // Load from local storage or initialize if not present
+        const items = localStorage.getItem("budgetItems");
+        if (items) {
+            try {
+                const itemParsed: budgetItem[] = JSON.parse(items);
+                setBudgetItems(itemParsed);
+            } catch (e) {
+                // If parsing fails, reset to initial
+                setBudgetItems(INITIAL_BUDGET_ITEMS);
+                localStorage.setItem("budgetItems", JSON.stringify(INITIAL_BUDGET_ITEMS));
+            }
+        } else {
+            // If nothing in localStorage, initialize it
+            localStorage.setItem("budgetItems", JSON.stringify(INITIAL_BUDGET_ITEMS));
+        }
+    }, []);*/
+
+    useEffect(() => {
+        // Save to local storage
+        localStorage.setItem("budgetItems", JSON.stringify(budgetItems));
+    }, [budgetItems]);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
